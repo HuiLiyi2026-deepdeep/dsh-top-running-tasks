@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Top running tasks",
+    "description": "Lists the sessions that are running right now at the very top of the sidebar, above the workspace list, across every workspace and sorted by recent activity. The section appears only while something is running."
+  }
+}

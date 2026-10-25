@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Top running tasks">
+  <title>Top running tasks</title>
+  <defs>
+    <linearGradient id="dtrt-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4d6bfe"/>
+      <stop offset="1" stop-color="#7c5cf5"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="64" height="64" rx="15" fill="url(#dtrt-bg)"/>
+  <path d="M32 13.5 41 22.5h-6.4v7.6h-5.2V22.5H23z" fill="#ffffff"/>
+  <circle cx="17.5" cy="38.5" r="3.4" fill="#ffffff"/>
+  <rect x="25" y="36" width="23" height="5" rx="2.5" fill="#ffffff"/>
+  <circle cx="17.5" cy="50" r="3.4" fill="#ffffff" opacity="0.55"/>
+  <rect x="25" y="47.5" width="15" height="5" rx="2.5" fill="#ffffff" opacity="0.55"/>
+</svg>
