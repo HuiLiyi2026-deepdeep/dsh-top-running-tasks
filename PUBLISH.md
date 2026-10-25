@@ -6,7 +6,7 @@
 
 ## 说明
 
-本文件里的 GitHub 账号 `yiyu123-creat` 取自本机 `git config user.name`（该 GitHub 账号存在）。若那不是你打算发布用的账号，改这三处即可：
+本文件里的 GitHub 账号 `HuiLiyi2026-deepdeep` 取自本机 `git config user.name`（该 GitHub 账号存在）。若那不是你打算发布用的账号，改这三处即可：
 
 ```powershell
 npm pkg set author="<你的用户名>" repository.url="git+https://github.com/<你的用户名>/dsh-top-running-tasks.git" homepage="https://github.com/<你的用户名>/dsh-top-running-tasks#readme" bugs.url="https://github.com/<你的用户名>/dsh-top-running-tasks/issues"
@@ -19,12 +19,12 @@ npm pkg set author="<你的用户名>" repository.url="git+https://github.com/<�
 ```powershell
 cd E:\AI-RAG方向勘探测试\dsh-top-running-tasks
 
-# 把 yiyu123-creat 换成你的 GitHub 用户名
-npm pkg set author="yiyu123-creat" `
+# 把 HuiLiyi2026-deepdeep 换成你的 GitHub 用户名
+npm pkg set author="HuiLiyi2026-deepdeep" `
   repository.type=git `
-  repository.url="git+https://github.com/yiyu123-creat/dsh-top-running-tasks.git" `
-  homepage="https://github.com/yiyu123-creat/dsh-top-running-tasks#readme" `
-  bugs.url="https://github.com/yiyu123-creat/dsh-top-running-tasks/issues"
+  repository.url="git+https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks.git" `
+  homepage="https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks#readme" `
+  bugs.url="https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks/issues"
 
 # 顺带把 LICENSE 里的署名也换掉（可选）
 ```
@@ -38,7 +38,7 @@ npm pkg set author="yiyu123-creat" `
 ```powershell
 cd E:\AI-RAG方向勘探测试\dsh-top-running-tasks
 git init -b main            # 本仓库已初始化并提交过，若重来才需要
-git remote add origin https://github.com/yiyu123-creat/dsh-top-running-tasks.git
+git remote add origin https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks.git
 git push -u origin main
 ```
 
@@ -80,7 +80,7 @@ npm pack --pack-destination ..\dist
 上传后这条链接才真正可用（README 里已有）：
 
 ```
-https://github.com/yiyu123-creat/dsh-top-running-tasks/releases/latest/download/dsh-top-running-tasks-1.0.0.tgz
+https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks/releases/latest/download/dsh-top-running-tasks-1.0.0.tgz
 ```
 
 ## 4. 提交到 DSH 插件市场
@@ -90,8 +90,8 @@ https://github.com/yiyu123-creat/dsh-top-running-tasks/releases/latest/download/
 ### 4.1 Fork 并新建 `data/plugins/<github-user>__<repo>.yml`
 
 ```yaml
-url: https://github.com/yiyu123-creat/dsh-top-running-tasks
-name: yiyu123-creat/dsh-top-running-tasks
+url: https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks
+name: HuiLiyi2026-deepdeep/dsh-top-running-tasks
 category: ui
 description:
   en: A section at the top of the DSH Web sidebar that lists every session running right now across all workspaces, ranked by most recent activity, and hides itself when nothing is running.
@@ -110,7 +110,7 @@ description:
 ```bash
 npm ci
 node scripts/generate-readme.mjs
-git add data/plugins/yiyu123-creat__dsh-top-running-tasks.yml README.md README.zh.md
+git add data/plugins/HuiLiyi2026-deepdeep__dsh-top-running-tasks.yml README.md README.zh.md
 git commit -m "add dsh-top-running-tasks"
 ```
 
@@ -127,7 +127,7 @@ CI 会检查 manifest 声明、仓库年龄、提交数、YAML 格式与 README 
 ```powershell
 dsh plugin --profile desktop remove dsh-top-running-tasks   # 移除本地 link 版
 dsh plugin --profile desktop add dsh-top-running-tasks      # 从 npm 装
-# 或：dsh plugin --profile desktop add github:yiyu123-creat/dsh-top-running-tasks
+# 或：dsh plugin --profile desktop add github:HuiLiyi2026-deepdeep/dsh-top-running-tasks
 ```
 
 重启并刷新页面，确认：

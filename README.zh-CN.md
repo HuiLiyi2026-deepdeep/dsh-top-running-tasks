@@ -34,7 +34,7 @@ dsh plugin add dsh-top-running-tasks
 dsh plugin add ./dsh-top-running-tasks
 
 # 从 Release tarball
-dsh plugin add https://github.com/yiyu123-creat/dsh-top-running-tasks/releases/latest/download/dsh-top-running-tasks-1.0.0.tgz
+dsh plugin add https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks/releases/latest/download/dsh-top-running-tasks-1.0.0.tgz
 ```
 
 桌面版也可以在「插件」页里装。包内声明了 `dsh.bundle`，profile 会挂载它的 `cordis.patch.yml` 行，客户端注册表随之为浏览器提供 `./client.js`。

@@ -4,7 +4,7 @@
   "description": "Lists the sessions that are running right now at the very top of the DSH Web sidebar, above the workspace list, across every workspace and sorted by recent activity.",
   "type": "module",
   "license": "MIT",
-  "author": "yiyu123-creat",
+  "author": "HuiLiyi2026-deepdeep",
   "keywords": [
     "deepseek-harness",
     "dsh",
@@ -68,10 +68,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yiyu123-creat/dsh-top-running-tasks.git"
+    "url": "git+https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks.git"
   },
-  "homepage": "https://github.com/yiyu123-creat/dsh-top-running-tasks#readme",
+  "homepage": "https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks#readme",
   "bugs": {
-    "url": "https://github.com/yiyu123-creat/dsh-top-running-tasks/issues"
+    "url": "https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks/issues"
   }
 }

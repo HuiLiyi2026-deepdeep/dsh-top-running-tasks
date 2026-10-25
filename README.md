@@ -44,7 +44,7 @@ dsh plugin add dsh-top-running-tasks
 dsh plugin add ./dsh-top-running-tasks
 
 # from a release tarball
-dsh plugin add https://github.com/yiyu123-creat/dsh-top-running-tasks/releases/latest/download/dsh-top-running-tasks-1.0.0.tgz
+dsh plugin add https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks/releases/latest/download/dsh-top-running-tasks-1.0.0.tgz
 ```
 
 In the desktop app it can also be installed from the Plugins page. The package
