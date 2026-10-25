@@ -40,6 +40,8 @@
   ],
   "scripts": {
     "test": "node tests/selfcheck.cjs",
+    "verify": "node scripts/verify.mjs",
+    "release": "npm test && npm run verify && npm publish --access public",
     "prepack": "node tests/selfcheck.cjs"
   },
   "engines": {
