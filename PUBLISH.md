@@ -1,4 +1,4 @@
-﻿# 发布清单（GitHub + npm + DSH 插件市场）
+# 发布清单（GitHub + npm + DSH 插件市场）
 
 按顺序做，每步都有可复制的命令。前三步由你执行（涉及你的 GitHub 账号与 npm 凭据），仓库里已经准备好了其余全部内容。
 
@@ -6,7 +6,22 @@
 
 ## 说明
 
-本文件里的 GitHub 账号 `HuiLiyi2026-deepdeep` 取自本机 `git config user.name`（该 GitHub 账号存在）。若那不是你打算发布用的账号，改这三处即可：
+所有 URL 已对准 **[HuiLiyi2026-deepdeep/dsh-top-running-tasks](https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks)**，`origin` 也已指好。
+
+当前本地状态：`main` 上 9 个提交，`v1.0.0` 标签，工作区干净；远端 `origin/main` 已 fetch（就是你用 zip 导入的那两个提交），并已用 `-s ours` 合并进历史（树以本地为准），所以**直接 `git push origin main --tags` 即可，不需要 force**。
+
+`git config` 里的提交身份目前是 `yiyu123-creat <252906010418@stu.jcu.edu.cn>`——那是本机全局配置，**不是** `HuiLiyi2026-deepdeep`。要让 GitHub 把提交认到你名下，先改身份再重写作者，然后才推：
+
+```powershell
+git config user.name "HuiLiyi"
+git config user.email "huiliyi2026@gmail.com"     # 用你 GitHub 账号里已验证的邮箱
+git rebase --root -x "git commit --amend --no-edit --reset-author"
+git tag -f -a v1.0.0 -m "v1.0.0 — first public release"
+```
+
+## 0. 改账号（只有换账号时才需要）
+
+若某天要换到别的账号，改这几处即可：
 
 ```powershell
 npm pkg set author="<你的用户名>" repository.url="git+https://github.com/<你的用户名>/dsh-top-running-tasks.git" homepage="https://github.com/<你的用户名>/dsh-top-running-tasks#readme" bugs.url="https://github.com/<你的用户名>/dsh-top-running-tasks/issues"
@@ -14,7 +29,6 @@ npm pkg set author="<你的用户名>" repository.url="git+https://github.com/<�
 
 并把本文件与两份 README 里的 URL 同步替换（`(Get-Content *.md) -replace '旧名','新名'` 一把梭即可）。
 
-## 0. 先把占位的身份信息改成你自己的
 
 ```powershell
 cd E:\AI-RAG方向勘探测试\dsh-top-running-tasks
