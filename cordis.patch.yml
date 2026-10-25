@@ -1,0 +1,8 @@
+# dsh-top-running-tasks
+#
+# The Host half is intentionally empty: this plugin is pure browser UI. The
+# `insert` row below is what makes the composition load `./client` (declared
+# through package.json's `dsh.client`) into the Web app.
+- insert:
+    - id: top-running-tasks
+      name: 'dsh-top-running-tasks'

@@ -1,0 +1,75 @@
+{
+  "name": "dsh-top-running-tasks",
+  "version": "1.0.0",
+  "description": "Lists the sessions that are running right now at the very top of the DSH Web sidebar, above the workspace list, across every workspace and sorted by recent activity.",
+  "type": "module",
+  "license": "MIT",
+  "author": "yiyu123-creat",
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "cordis",
+    "sidebar",
+    "sessions",
+    "running",
+    "tasks",
+    "ui"
+  ],
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./client.js": "./client.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "README.zh-CN.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "tests/selfcheck.cjs"
+  ],
+  "scripts": {
+    "test": "node tests/selfcheck.cjs",
+    "prepack": "node tests/selfcheck.cjs"
+  },
+  "engines": {
+    "dsh": ">=0.2.1-rc.3 <0.3.0",
+    "node": ">=20"
+  },
+  "dsh": {
+    "id": "dsh-top-running-tasks",
+    "name": "Top running tasks",
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yiyu123-creat/dsh-top-running-tasks.git"
+  },
+  "homepage": "https://github.com/yiyu123-creat/dsh-top-running-tasks#readme",
+  "bugs": {
+    "url": "https://github.com/yiyu123-creat/dsh-top-running-tasks/issues"
+  }
+}
