@@ -8,16 +8,13 @@
 
 所有 URL 已对准 **[HuiLiyi2026-deepdeep/dsh-top-running-tasks](https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks)**，`origin` 也已指好。
 
-当前本地状态：`main` 上 9 个提交，`v1.0.0` 标签，工作区干净；远端 `origin/main` 已 fetch（就是你用 zip 导入的那两个提交），并已用 `-s ours` 合并进历史（树以本地为准），所以**直接 `git push origin main --tags` 即可，不需要 force**。
+当前本地状态：
 
-`git config` 里的提交身份目前是 `yiyu123-creat <252906010418@stu.jcu.edu.cn>`——那是本机全局配置，**不是** `HuiLiyi2026-deepdeep`。要让 GitHub 把提交认到你名下，先改身份再重写作者，然后才推：
-
-```powershell
-git config user.name "HuiLiyi"
-git config user.email "huiliyi2026@gmail.com"     # 用你 GitHub 账号里已验证的邮箱
-git rebase --root -x "git commit --amend --no-edit --reset-author"
-git tag -f -a v1.0.0 -m "v1.0.0 — first public release"
-```
+- `main` 上是完整发布历史（13 个提交，含你之前用 zip 导入的那两个提交，它们的 sha 与签名都原样保留）；
+- `v1.0.0` 是 annotated tag，指在最新提交上；
+- 提交作者已统一为 `HuiLiyi <huiliyi2026@gmail.com>`（仓库级 `git config` 也是这个身份，后续提交不会再错）；
+- 远端 `origin/main` 已 fetch，并且仍是 `main` 的祖先 → **`git push origin main --follow-tags` 是 fast-forward，不需要 force**；
+- 重写前的那份历史留在本地标签 `backup/before-identity-rewrite` 上（只在本机，不会被 `--follow-tags` 推上去），需要回滚时 `git reset --hard backup/before-identity-rewrite`。
 
 ## 0. 改账号（只有换账号时才需要）
 
