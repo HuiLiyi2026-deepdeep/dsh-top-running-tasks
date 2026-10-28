@@ -1,139 +1,96 @@
 # 发布清单（GitHub + npm + DSH 插件市场）
 
-按顺序做，每步都有可复制的命令。前三步由你执行（涉及你的 GitHub 账号与 npm 凭据），仓库里已经准备好了其余全部内容。
+仓库：**https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks**
 
 ---
 
-## 说明
+## 现状（2026-10-28）
 
-所有 URL 已对准 **[HuiLiyi2026-deepdeep/dsh-top-running-tasks](https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks)**，`origin` 也已指好。
-
-当前本地状态：
-
-- `main` 上是完整发布历史（13 个提交，含你之前用 zip 导入的那两个提交，它们的 sha 与签名都原样保留）；
-- `v1.0.0` 是 annotated tag，指在最新提交上；
-- 提交作者已统一为 `HuiLiyi <huiliyi2026@gmail.com>`（仓库级 `git config` 也是这个身份，后续提交不会再错）；
-- 远端 `origin/main` 已 fetch，并且仍是 `main` 的祖先 → **`git push origin main --follow-tags` 是 fast-forward，不需要 force**；
-- 重写前的那份历史留在本地标签 `backup/before-identity-rewrite` 上（只在本机，不会被 `--follow-tags` 推上去），需要回滚时 `git reset --hard backup/before-identity-rewrite`。
-
-## 0. 改账号（只有换账号时才需要）
-
-若某天要换到别的账号，改这几处即可：
-
-```powershell
-npm pkg set author="<你的用户名>" repository.url="git+https://github.com/<你的用户名>/dsh-top-running-tasks.git" homepage="https://github.com/<你的用户名>/dsh-top-running-tasks#readme" bugs.url="https://github.com/<你的用户名>/dsh-top-running-tasks/issues"
-```
-
-并把本文件与两份 README 里的 URL 同步替换（`(Get-Content *.md) -replace '旧名','新名'` 一把梭即可）。
-
-
-```powershell
-cd E:\AI-RAG方向勘探测试\dsh-top-running-tasks
-
-# 把 HuiLiyi2026-deepdeep 换成你的 GitHub 用户名
-npm pkg set author="HuiLiyi2026-deepdeep" `
-  repository.type=git `
-  repository.url="git+https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks.git" `
-  homepage="https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks#readme" `
-  bugs.url="https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks/issues"
-
-# 顺带把 LICENSE 里的署名也换掉（可选）
-```
-
-`npm pack --dry-run --json` 可以随时复核最终发布会带上的文件（当前 12 个文件 / 24 KB 压缩包）。
+| 项 | 状态 |
+|---|---|
+| 代码 | 已推到 `main`：13 个提交、作者 `HuiLiyi <huiliyi2026@gmail.com>`、16 个文件 |
+| 标签 | `v1.0.0` 已推 |
+| 远端核对 | HEAD `9d82133`；`scripts/verify.mjs` / `PUBLISH.md` / `.gitignore` / `.gitattributes` 均在；`package.json` 指向本仓库 |
+| 本地校验 | `npm test` ✅、`npm run verify` 43 项 ✅ |
+| 发布包 | `E:\AI-RAG方向勘探测试\dist\dsh-top-running-tasks-1.0.0.tgz`（24 KB，12 文件） |
+| **还差** | npm 登录并发布 → 建 GitHub Release → 提市场上架 PR |
 
 ---
 
-## 1. GitHub 仓库
+## 0. 网络：github.com 连不上时怎么推
+
+这台机器上 `github.com:443` 经常不通（TCP 偶通、TLS 被打断），但 `ssh.github.com:443` 稳定可用。仓库已按下面的方式配好，日常直接 `git push` 就行。
+
+`~/.ssh/config`（**必须是无 BOM 的 UTF-8/ASCII**；带 BOM 会让 git 自带的 ssh 报 `Bad configuration option: ﻿#`）：
+
+```text
+Host github.com
+  HostName ssh.github.com
+  Port 443
+  User git
+  IdentityFile ~/.ssh/id_ed25519
+```
+
+`origin` 已经是 `git@github.com:HuiLiyi2026-deepdeep/dsh-top-running-tasks.git`，推送走 443 隧道，不经过被封的 `github.com`。
+
+如果哪天又有代理可用，也可以临时走 HTTPS：
+
+```powershell
+git -c http.proxy=http://127.0.0.1:7890 push https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks.git main
+```
+
+---
+
+## 1. 发布到 npm
+
+`dsh-top-running-tasks` 这个名字在 npm 上是空的（实测 404），可以直接占用。
 
 ```powershell
 cd E:\AI-RAG方向勘探测试\dsh-top-running-tasks
-git init -b main            # 本仓库已初始化并提交过，若重来才需要
-git remote add origin https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks.git
-git push -u origin main
-```
-
-然后在仓库页面右上角齿轮 → **Topics** 加上：
-
-```
-dsh-plugin deepseek-harness dsh cordis sidebar sessions
-```
-
-> 加 `dsh-plugin` topic 是市场侧识别的常用约定，也方便别人按 topic 找到。
-
-## 2. npm 发布（市场走预览构建通道的前提）
-
-```powershell
-npm login                 # 第一次
-npm test                  # 本地自检（prepack 也会跑）
+npm login                 # 浏览器授权或粘贴 OTP
 npm publish --access public
 ```
 
-- `name` 目前是空的（`registry.npmjs.org/dsh-top-running-tasks` 返回 404），可以直接占用。
-- `publishConfig.access = public`、`registry` 已写好，不需要额外参数。
-- 建议在 npm 账号上开启 2FA；`npm publish --provenance` 需要 CI 环境，本地发布可跳过。
-- 包内声明了 `engines.dsh`（`>=0.2.1-rc.3 <0.3.0`），市场据此显示宿主要求并在不兼容时拦住安装。
+- `publishConfig.access = public`、`registry` 已写好，不必再加参数。
+- 发布前 `prepack` 会自动跑 `node tests/selfcheck.cjs`，自检不过会中止发布。
+- 发完核对：`curl.exe -s -o NUL -w "%{http_code}" https://registry.npmjs.org/dsh-top-running-tasks` 应返回 `200`。
 
-## 3. GitHub Release（README 里的 tarball 安装方式依赖它）
+## 2. GitHub Release（README 的 tarball 安装链接依赖它）
 
-```powershell
-npm pack --pack-destination ..\dist
-# 生成 ..\dist\dsh-top-running-tasks-1.0.0.tgz
-```
+仓库 → Releases → Draft a new release：
 
-在 GitHub 上 `Releases → Draft a new release`：
-
-- tag：`v1.0.0`
+- tag：`v1.0.0`（已存在，直接选）
 - 标题：`v1.0.0 — first public release`
-- 附件：上传 `dsh-top-running-tasks-1.0.0.tgz`
-- 正文可以直接用 `CHANGELOG.md` 里 1.0.0 那段
+- 附件：上传 `E:\AI-RAG方向勘探测试\dist\dsh-top-running-tasks-1.0.0.tgz`
+- 正文：可用 `CHANGELOG.md` 的 1.0.0 段
 
-上传后这条链接才真正可用（README 里已有）：
+上传后这条链接才可用：
 
-```
+```text
 https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks/releases/latest/download/dsh-top-running-tasks-1.0.0.tgz
 ```
 
-## 4. 提交到 DSH 插件市场
+## 3. 提交到 DSH 插件市场（PR）
 
-市场的数据源是 **[awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin)**：收录方式是给那个仓库提一个 PR，新增一个 YAML 文件（README 由脚本生成，不要手改）。
+市场数据源是 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin)，收录方式是提 PR 新增一个 YAML（README 由脚本生成，不要手改）。
 
-### 4.1 Fork 并新建 `data/plugins/<github-user>__<repo>.yml`
+1. Fork 该仓库，新建 `data/plugins/HuiLiyi2026-deepdeep__dsh-top-running-tasks.yml`，内容：`E:\AI-RAG方向勘探测试\dist\awesome-dsh-plugin-entry.yml`
+2. 本地重新生成 README 并一起提交：
 
-```yaml
-url: https://github.com/HuiLiyi2026-deepdeep/dsh-top-running-tasks
-name: HuiLiyi2026-deepdeep/dsh-top-running-tasks
-category: ui
-description:
-  en: A section at the top of the DSH Web sidebar that lists every session running right now across all workspaces, ranked by most recent activity, and hides itself when nothing is running.
-  zh: 在 DSH Web 侧栏最顶部列出此刻正在运行的会话，不分工作区、按最近活跃时间排序，没有运行中的任务时自动隐藏。
-```
+   ```bash
+   npm ci
+   node scripts/generate-readme.mjs
+   git add data/plugins/HuiLiyi2026-deepdeep__dsh-top-running-tasks.yml README.md README.zh.md
+   git commit -m "add dsh-top-running-tasks"
+   git push
+   ```
 
-格式要点（以该仓库的 contributing 文档为准）：
+3. 提 PR，标题 `add dsh-top-running-tasks`。
+4. 收录门槛通常是「仓库满 1 天 + ≥10 提交」——本仓库 2026-10-25 建、13 个提交，已满足。合并后市场每日刷新，通常一天内出现。
 
-- `url` 必须与仓库地址**完全一致**；
-- `description.en` 必填、以句号结尾、只讲功能，不写营销词；
-- 描述里出现 `: `（冒号+空格）要加引号；
-- `category` 选不准不会被拒，维护者会改；UI 类插件用 `ui`，如果不确定就看 `data/plugins/` 下同类插件用的值。
+YAML 格式要点（以该仓库 contributing 文档为准）：`url` 必须与仓库地址完全一致；`description.en` 必填、以句号结尾、只讲功能；描述里出现 `: ` 要加引号；`category` 选不准不会被拒。
 
-### 4.2 重新生成 README 并一起提交
-
-```bash
-npm ci
-node scripts/generate-readme.mjs
-git add data/plugins/HuiLiyi2026-deepdeep__dsh-top-running-tasks.yml README.md README.zh.md
-git commit -m "add dsh-top-running-tasks"
-```
-
-### 4.3 提 PR
-
-标题：`add dsh-top-running-tasks`
-
-CI 会检查 manifest 声明、仓库年龄、提交数、YAML 格式与 README 可重现性；全绿后维护者会读代码再合并。
-
-> **注意收录门槛**：这类列表通常要求仓库已存在 ≥1 天、提交数 ≥10（防刷）。本仓库目前是 7 个有意义的提交，建议等仓库建满一天后再提，期间把你的迭代继续提交上去即可，**不要为了凑数拆空提交**。
-
-## 5. 收录生效后自测「干净用户」路径
+## 4. 收录后自测「干净用户」路径
 
 ```powershell
 dsh plugin --profile desktop remove dsh-top-running-tasks   # 移除本地 link 版
@@ -141,21 +98,20 @@ dsh plugin --profile desktop add dsh-top-running-tasks      # 从 npm 装
 # 或：dsh plugin --profile desktop add github:HuiLiyi2026-deepdeep/dsh-top-running-tasks
 ```
 
-重启并刷新页面，确认：
+重启并刷新页面，确认：侧栏「工作区」标题下出现 `运行中 N`；点行能跳到对应会话；任务跑完后整段消失；`window.__dshTopRunningTasks.version` 是 `1.0.0`。
 
-1. 侧栏「工作区」标题下出现 `运行中 N`；
-2. 行点开跳到对应会话；
-3. 全部任务跑完后整段消失，侧栏与原来一致；
-4. `window.__dshTopRunningTasks.version` 是 `1.0.0`。
+## 5. 以后升版
 
-## 6. 以后升版
+1. 改 `client.js` 里的 `VERSION` 与 `package.json` 的 `version`（**两处要一致**，`npm run verify` 会检查）
+2. 更新 `CHANGELOG.md`
+3. `npm test && npm run verify`
+4. `git commit` → `git tag -a v1.x.y` → `git push --follow-tags`
+5. `npm publish`
+6. GitHub 打 Release、上传新 tarball
 
-```powershell
-# 1. 改 client.js 里的 VERSION 与 package.json 的 version（两处要一致）
-# 2. 写 CHANGELOG
-npm test
-npm publish
-# 3. GitHub 上打新 tag + Release 附件
-```
+---
 
-市场每日刷新数据源，升版后在市场里会自动跟上（用户端仍以 npm 上的 latest 为准）。
+## 附：这台机器上的两个坑（都已绕开，别踩第二次）
+
+1. **BOM**：用 PowerShell 的 `Set-Content -Encoding utf8` 写 `~/.ssh/config` 或提交信息会带 BOM，前者让 git 的 ssh 拒绝整个配置、后者让提交信息首字符变成不可见字符。写配置用 `[System.IO.File]::WriteAllText(..., New-Object System.Text.UTF8Encoding($false))`；写提交信息直接把内容用 `-m` 传给 `git commit`。
+2. **`sh.exe` 在某些受限模式下滑不起来**，`git rebase -x` / `filter-branch` 会因此失败；要批量改历史时用 PowerShell 循环调 `git commit-tree`（本仓库的作者重写就是这么做的）。
